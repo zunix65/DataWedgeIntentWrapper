@@ -51,23 +51,27 @@ public class DWStatusScanner {
     {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if(action.equals(DataWedgeConstants.NOTIFICATION_ACTION)){
-                // handle notification
-                if(intent.hasExtra(DataWedgeConstants.EXTRA_RESULT_NOTIFICATION)) {
-                    Bundle b = intent.getBundleExtra(DataWedgeConstants.EXTRA_RESULT_NOTIFICATION);
-                    String NOTIFICATION_TYPE  = b.getString(DataWedgeConstants.EXTRA_RESULT_NOTIFICATION_TYPE);
-                    if(NOTIFICATION_TYPE!= null) {
-                        switch (NOTIFICATION_TYPE) {
-                            case DataWedgeConstants.NOTIFICATION_TYPE_SCANNER_STATUS:
-                                String status = b.getString(DataWedgeConstants.EXTRA_KEY_VALUE_NOTIFICATION_STATUS);
-                                if(status!=null){
-                                    mStatusSettings.mScannerCallback.result(status);
-                                }
-                                break;
+            try {
+                String action = intent.getAction();
+                if(action.equals(DataWedgeConstants.NOTIFICATION_ACTION)){
+                    // handle notification
+                    if(intent.hasExtra(DataWedgeConstants.EXTRA_RESULT_NOTIFICATION)) {
+                        Bundle b = intent.getBundleExtra(DataWedgeConstants.EXTRA_RESULT_NOTIFICATION);
+                        String NOTIFICATION_TYPE  = b.getString(DataWedgeConstants.EXTRA_RESULT_NOTIFICATION_TYPE);
+                        if(NOTIFICATION_TYPE!= null) {
+                            switch (NOTIFICATION_TYPE) {
+                                case DataWedgeConstants.NOTIFICATION_TYPE_SCANNER_STATUS:
+                                    String status = b.getString(DataWedgeConstants.EXTRA_KEY_VALUE_NOTIFICATION_STATUS);
+                                    if(status!=null){
+                                        mStatusSettings.mScannerCallback.result(status);
+                                    }
+                                    break;
+                            }
                         }
                     }
                 }
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }
     };
